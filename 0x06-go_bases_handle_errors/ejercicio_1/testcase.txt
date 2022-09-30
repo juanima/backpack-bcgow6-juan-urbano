@@ -1,0 +1,16 @@
+1
+-----------------------1
+2
+Nicolas Salva nico29@gmail.com 
+2
+detergente 30012.00 
+suavizante 3400.00 
+Andres Ronda nico29@gmail.com 
+1
+guantes 50212.00 
+Nicolas Salva vaso 360.80 6
+Andres Ronda
+-----------------------2
+1
+Nicolas Salva 29 nico29@gmail.com 
+
