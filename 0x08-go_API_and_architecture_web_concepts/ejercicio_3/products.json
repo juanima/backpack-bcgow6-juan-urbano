@@ -1,0 +1,21 @@
+[
+    {
+	"id": 1,
+    	"stock": 2,
+    	"name": "beer",
+    	"color": "blue",
+    	"code": "AC323", 
+    	"publish": false,
+    	"date": "December"
+    },
+    {
+	"id": 2,
+    	"stock": 4,
+    	"name": "headphones",
+    	"color": "red",
+    	"code": "AC323T", 
+    	"publish": false,
+    	"date": "November"
+    }
+]
+
