@@ -1,0 +1,10 @@
+{
+    "stock": 9,
+    "name": "beer",
+    "color": "red",
+    "code": "AC888", 
+    "price": 4.7,
+    "publish": true,
+    "date": "January"
+}
+

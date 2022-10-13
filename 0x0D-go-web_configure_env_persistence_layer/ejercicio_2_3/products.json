@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 1,
+    "Stock": 20,
+    "Name": "beer",
+    "Color": "blue",
+    "Code": "blue",
+    "Price": 4.5,
+    "Publish": false,
+    "Date": ""
+  },
+  {
+    "Id": 2,
+    "Stock": 2,
+    "Name": "beer",
+    "Color": "blue",
+    "Code": "blue",
+    "Price": 4.5,
+    "Publish": false,
+    "Date": ""
+  }
+]
