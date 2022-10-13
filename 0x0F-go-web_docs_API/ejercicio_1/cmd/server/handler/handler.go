@@ -89,13 +89,13 @@ func (p *Product) GetOne() gin.HandlerFunc {
 // @Router   /products [GET]
 func (p *Product) GetAll() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.GetHeader("token")
+		// token := c.GetHeader("token")
                 
-                token_system, err := getToken(token)
-                if err != nil || token != token_system {
-			c.JSON(http.StatusUnauthorized,  web.NewResponse(http.StatusUnauthorized, nil, "token inválido"))
-                        return
-                }
+                // token_system, err := getToken(token)
+                // if err != nil || token != token_system {
+		// 	c.JSON(http.StatusUnauthorized,  web.NewResponse(http.StatusUnauthorized, nil, "token inválido"))
+                //         return
+                // }
 
 		p, err := p.service.GetAll()
 		if err != nil {
@@ -155,13 +155,13 @@ func (p *Product) FilterProduct() gin.HandlerFunc {
 func (p *Product) Store() gin.HandlerFunc {
 	return func(c *gin.Context) {
 	
-                token := c.GetHeader("token")
+                // token := c.GetHeader("token")
 
-                token_system, err := getToken(token)
-                if err != nil || token != token_system {
-			c.JSON(http.StatusUnauthorized, web.NewResponse(http.StatusUnauthorized, nil, "token inválido"))
-                        return
-                }
+                // token_system, err := getToken(token)
+                // if err != nil || token != token_system {
+		// 	c.JSON(http.StatusUnauthorized, web.NewResponse(http.StatusUnauthorized, nil, "token inválido"))
+                //         return
+                // }
                 
 		var req ProductRequest
 		if err := c.ShouldBindJSON(&req); err != nil {
@@ -222,13 +222,13 @@ func (p *Product) Store() gin.HandlerFunc {
 // @Router   /products/{id} [PUT]
 func (p *Product) Update() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.GetHeader("token")
+		// token := c.GetHeader("token")
 
-                token_system, err := getToken(token)
-                if err != nil || token != token_system {
-			c.JSON(http.StatusUnauthorized, web.NewResponse(http.StatusUnauthorized, nil, "token inválido"))
-                        return
-                }
+                //  token_system, err := getToken(token)
+                //  if err != nil || token != token_system {
+	        //  	c.JSON(http.StatusUnauthorized, web.NewResponse(http.StatusUnauthorized, nil, "token inválido"))
+                //          return
+                //  }
 
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
@@ -304,13 +304,13 @@ func (p *Product) Update() gin.HandlerFunc {
 // @Router       /products/{id} [PATCH]
 func (p *Product) UpdateStock() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.GetHeader("token")
+		// token := c.GetHeader("token")
                 
-                token_system, err := getToken(token)
-                if err != nil || token != token_system {
-			c.JSON(http.StatusUnauthorized, web.NewResponse(http.StatusUnauthorized, nil, "token inválido"))
-                        return
-                }
+                // token_system, err := getToken(token)
+                // if err != nil || token != token_system {
+		// 	c.JSON(http.StatusUnauthorized, web.NewResponse(http.StatusUnauthorized, nil, "token inválido"))
+                //         return
+                // }
 
 		id, err := strconv.Atoi(c.Param("id"))
 		if err != nil {
@@ -338,14 +338,14 @@ func (p *Product) UpdateStock() gin.HandlerFunc {
 func (p *Product) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
-	        token := c.GetHeader("token")
+	        // token := c.GetHeader("token")
 
 
-                token_system, err := getToken(token)
-                if err != nil || token != token_system {
-			c.JSON(http.StatusUnauthorized, web.NewResponse(http.StatusUnauthorized, nil, "token inválido"))
-                        return
-                }
+                // token_system, err := getToken(token)
+                // if err != nil || token != token_system {
+		// 	c.JSON(http.StatusUnauthorized, web.NewResponse(http.StatusUnauthorized, nil, "token inválido"))
+                //         return
+                // }
 
 	        id, err := strconv.Atoi(c.Param("id"))
 	        if err != nil {

@@ -44,20 +44,25 @@ func main() {
 	r := gin.Default()
 	api := r.Group("/api/v1")
 
+        api.Use(handler.AuthMiddlewareToken())
+
         // Documentación swagger
 	docs.SwaggerInfo.Host = os.Getenv("HOST")
 	api.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
         api.GET("/status", p.Status())
 
-	pr := r.Group("products")
-	pr.GET("/", p.GetAll())
-        pr.GET("/:id", p.GetOne())
-        pr.GET("/filter-product", p.FilterProduct())       
-	pr.POST("/", p.Store())
-	pr.PUT("/:id", p.Update())
-	pr.PATCH("/:id", p.UpdateStock())
-	pr.DELETE("/:id", p.Delete())
+	pr := api.Group("products") 
+        {
+	        pr.GET("/", p.GetAll())
+                pr.GET("/:id", p.GetOne())
+                pr.GET("/filter-product", p.FilterProduct())       
+	        pr.POST("/", p.Store())
+	        pr.PUT("/:id", p.Update())
+	        pr.PATCH("/:id", p.UpdateStock())
+	        pr.DELETE("/:id", p.Delete())
+
+        }
 
 	if err := r.Run(); err != nil {
 		panic(err)
