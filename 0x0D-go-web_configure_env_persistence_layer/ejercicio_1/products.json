@@ -1,0 +1,11 @@
+{
+    "id": 1,
+    "stock": 2,
+    "name": "beer",
+    "color": "blue",
+    "code": "AC323", 
+    "price": 4.5,
+    "publish": false,
+    "date": "December"
+}
+
