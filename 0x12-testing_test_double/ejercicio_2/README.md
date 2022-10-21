@@ -1,19 +1,19 @@
-# Ejercicio 1
+# Ejercicio 2
 
-## Enunciated *_Test Unitario GetAll()_*
+## Enunciated *_Test Unitario UpdateName()_*
 
-Generar un Stub del Store cuya función `“Read”` retorne dos productos con las especificaciones que deseen. Comprobar que `GetAll()` retorne la información exactamente igual a la esperada. Para esto:
+Diseñar Test de UpdateName, donde se valide que la respuesta retornada sea correcta para la actualización del nombre de un producto/usuario/transacción específico. Y además se compruebe que efectivamente se usa el método “Read” del Storage para buscar el producto. Para esto:
 
-1. Dentro de la carpeta `/internal/(producto/usuario/transacción)`, crear un archivo `repository_test.go` con el test diseñado.
+1. Crear un mock de Storage, dicho mock debe contener en su data un producto/usuario/transacción específico cuyo nombre puede ser “Before Update”.
+2. 2. El método Read del Mock, debe contener una lógica que permita comprobar que dicho método fue invocado. Puede ser a través de un boolean como se observó en la clase. 
+3. Para dar el test como OK debe validarse que al invocar el método del Repository UpdateName, con el id del producto/usuario/transacción mockeado y con el nuevo nombre “After Update”, efectivamente haga la actualización. También debe validarse que el método Read haya sido ejecutado durante el test. 
 
-
-## Run 
-
-- Estructura de directorios, podemos observar el directorio generado `docs/` donde almacena la documentación
+## Estructura de directorios
 
 ```bash
 $ tree
-.├── README.md
+.
+├── README.md
 ├── cmd
 │   └── server
 │       ├── handler
@@ -34,22 +34,28 @@ $ tree
 │   │   └── product.go
 │   └── products
 │       ├── repository.go
-│       ├── repository_test.go
+│       ├── repository_mock_test.go
+│       ├── repository_stub_test.go
 │       └── service.go
 ├── patch_products.json
 ├── pkg
 │   ├── store
 │   │   ├── file.go
+│   │   ├── mock_file.go
 │   │   └── stub_file.go
 │   └── web
 │       └── response.go
 ├── products.json
 └── update_products.json
 
-11 directories, 21 files
+11 directories, 23 files
 ```
 
-> Los test los puedes encontrar siguiendo `repository_test.go` y `stub_file.go`
+> Los test los puedes encontrar siguiendo `repository_mock_test.go` y `mock_file.go`
+
+>> `mock_file.go`: creamos una estructura que implementa los metodos del repository original, con esto logramos crear una instancia del struct `MockStoreFile` con ello podemos inyectarlo al repository
+
+>> `repository_mock_test.go`: creamos los test para probar el método `UpdateName()` y que utiliza el *mock* de store
 
 ### Option 1
 
@@ -57,10 +63,14 @@ $ tree
 
 ```bash
 $ go test -v ./internal/products/
+=== RUN   TestUpdateNameGood
+--- PASS: TestUpdateNameGood (0.00s)
+=== RUN   TestUpdateNameBad
+--- PASS: TestUpdateNameBad (0.00s)
 === RUN   TestGetAll
 --- PASS: TestGetAll (0.00s)
 PASS
-ok      github.com/ejercicio_2/internal/products        0.315s
+ok      github.com/ejercicio_2/internal/products        0.987s
 ```
 
 ---

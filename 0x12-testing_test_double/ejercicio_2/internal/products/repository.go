@@ -14,6 +14,7 @@ type Repository interface {
 	FilterProduct(name, color, code string, id, stock int, price float64, publish *bool) ([]*domain.Product, error)
 	Update(name, color, code string, id, stock int, price float64, publish *bool) (domain.Product, error)
 	UpdateStock(id int, stock int) (domain.Product, error)
+	UpdateName(id int, name string) (domain.Product, error)
 	Delete(id int) error
 }
 
@@ -209,6 +210,39 @@ func (r *repository) UpdateStock(id int, stock int) (product domain.Product, err
 
         return product, nil
 }
+
+
+// Update Name product
+func (r *repository) UpdateName(id int, name string) (product domain.Product, err error) {
+	var updated bool
+        var products []domain.Product
+
+        err = r.db.Read(&products)
+        if err != nil {
+                return product, err
+        }
+
+	product = domain.Product{}
+	for i := range products {
+		if products[i].Id == id {
+			products[i].Name = name 
+			product = products[i]
+			updated = true
+		}
+	}
+
+	if !updated {
+		return domain.Product{}, fmt.Errorf("product id %d not exists", id)
+	}
+
+        err = r.db.Write(products)
+        if err != nil {
+                return product, err
+        }
+
+        return product, nil
+}
+
 
 
 // Delete product
