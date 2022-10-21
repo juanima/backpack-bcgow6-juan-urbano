@@ -170,8 +170,8 @@ func (r *repository) Update(name, color, code string, id, stock int, price float
 		return domain.Product{}, fmt.Errorf("product id %d not exists", id)
 	}
         
-        // err = r.db.Write(products)
-        err = r.db.Write(product)
+        err = r.db.Write(products)
+        // err = r.db.Write(product)
         if err != nil {
                 return product, err
         }
@@ -245,7 +245,6 @@ func (r *repository) UpdateName(id int, name string) (product domain.Product, er
 }
 
 
-
 // Delete product
 func (r *repository) Delete(id int) error {
 	var deleted bool
@@ -269,7 +268,7 @@ func (r *repository) Delete(id int) error {
 		return fmt.Errorf("product id %d not exists", id)
 	}
 
-	products = append(products[:pos], products[pos + 1:]...)
+        products = append(products[:pos], products[pos + 1:]...)
 
         err = r.db.Write(products)
         if err != nil {

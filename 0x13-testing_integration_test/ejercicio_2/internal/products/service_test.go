@@ -1,6 +1,7 @@
 package products
 
 import (
+        "fmt"
 	"errors"
 	"testing"
 	"github.com/stretchr/testify/assert"
@@ -79,5 +80,83 @@ func TestServiceIntegrationUpdateFail(t *testing.T) {
 
 	// Assert.
         assert.Empty(t, product)
+	assert.EqualError(t, err, expectedErr.Error())
+}
+
+
+func TestServiceIntegrationDelete(t *testing.T) {
+	// Arrange.
+	expectedErr := errors.New("Not Found Product")
+        publish := false
+	expectedDatabase := []domain.Product{
+		{
+			Id:    1378,
+			Name:  "Caja de galleticas oreo",
+                        Stock: 90,
+			Color: "blue",
+			Code:  "AC323",
+			Price: 4.5,
+                        Publish: &publish,
+		},
+	}
+
+	initialDatabase := []domain.Product{
+		{
+			Id:    1378,
+			Name:  "Caja de galleticas oreo",
+                        Stock: 90,
+			Color: "blue",
+			Code:  "AC323",
+			Price: 4.5,
+                        Publish: &publish,
+		},
+		{
+			Id:    1399,
+			Name:  "Desodorante Roxana",
+                        Stock: 30,
+			Color: "blue",
+			Code:  "AC324",
+			Price: 4.9,
+                        Publish: &publish,
+		},
+	}
+
+	mockStorage := store.MockFileStoreIntegration{
+		MockedData: initialDatabase,
+	}
+
+	repository := NewRepository(&mockStorage)
+	service := NewService(repository)
+
+	// Act.
+	err := service.Delete(1399)
+        product, err := service.GetOne(1399)
+
+	// Assert.
+	assert.EqualError(t, err, expectedErr.Error())
+        assert.Empty(t, product)
+        assert.Equal(t, len(initialDatabase) - 1, len(expectedDatabase))
+}
+
+
+
+func TestServiceIntegrationDeleteFail(t *testing.T) {
+	// Arrange.
+        idToDeleteProduct := 1399
+        expectedErr := fmt.Errorf("product id %d not exists", idToDeleteProduct)
+
+	mockStorage := store.MockFileStoreIntegration{
+		MockedData:   nil,
+		ErrOnRead:  nil,
+		ErrOnWrite: errors.New("hello, i'm a little bug >:("),
+	}
+
+	repository := NewRepository(&mockStorage)
+	service := NewService(repository)
+
+	// Act.
+	err := service.Delete(idToDeleteProduct)
+
+	// Assert.
 	assert.EqualError(t, err, expectedErr.Error())
 }
