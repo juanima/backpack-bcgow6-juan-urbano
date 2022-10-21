@@ -170,7 +170,8 @@ func (r *repository) Update(name, color, code string, id, stock int, price float
 		return domain.Product{}, fmt.Errorf("product id %d not exists", id)
 	}
         
-        err = r.db.Write(products)
+        // err = r.db.Write(products)
+        err = r.db.Write(product)
         if err != nil {
                 return product, err
         }

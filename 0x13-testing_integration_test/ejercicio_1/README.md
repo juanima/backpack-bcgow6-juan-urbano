@@ -12,7 +12,6 @@ Diseñar un test que pruebe en la capa service, el método o función Update(). 
 ## Estructura de directorios
 
 ```bash
-$ tree
 .
 ├── README.md
 ├── cmd
@@ -37,41 +36,41 @@ $ tree
 │       ├── repository.go
 │       ├── repository_mock_test.go
 │       ├── repository_stub_test.go
-│       └── service.go
+│       ├── service.go
+│       └── service_test.go
 ├── patch_products.json
 ├── pkg
 │   ├── store
 │   │   ├── file.go
 │   │   ├── mock_file.go
+│   │   ├── mock_file_integration.go
 │   │   └── stub_file.go
 │   └── web
 │       └── response.go
 ├── products.json
 └── update_products.json
 
-11 directories, 23 files
+11 directories, 25 files
 ```
 
-> Los test los puedes encontrar siguiendo `repository_mock_test.go` y `mock_file.go`
+> Los test los puedes encontrar siguiendo `service_test.go` y `mock_file_integration.go`
 
->> `mock_file.go`: creamos una estructura que implementa los metodos del repository original, con esto logramos crear una instancia del struct `MockStoreFile` con ello podemos inyectarlo al repository
+>> `mock_file_integration.go`: creamos una estructura que implementa los metodos del store original, con esto logramos crear una instancia del struct `MockFileStoreIntegration` con ello podemos inyectarlo al repository, aquí terminamos la implementación de metodo `Write()` ya que este nos faltaba 
 
->> `repository_mock_test.go`: creamos los test para probar el método `UpdateName()` y que utiliza el *mock* de store
+>> `service_test.go`: creamos los test de integración para probar el método `Update()` y que utiliza el *mock* de store, una integración: ---> relación `service`y `repository`
 
 ### Option 1
 
 - Ejecutar los casos de acuerdo al archivo de pruebas
 
 ```bash
-$ go test -v ./internal/products/
-=== RUN   TestUpdateNameGood
---- PASS: TestUpdateNameGood (0.00s)
-=== RUN   TestUpdateNameBad
---- PASS: TestUpdateNameBad (0.00s)
-=== RUN   TestGetAll
---- PASS: TestGetAll (0.00s)
+$ go test -v ./internal/products/  -run TestServiceIntegrationUpdate
+=== RUN   TestServiceIntegrationUpdate
+--- PASS: TestServiceIntegrationUpdate (0.00s)
+=== RUN   TestServiceIntegrationUpdateFail
+--- PASS: TestServiceIntegrationUpdateFail (0.00s)
 PASS
-ok      github.com/ejercicio_2/internal/products        0.987s
+ok      github.com/ejercicio_2/internal/products        0.931s
 ```
 
 ---
