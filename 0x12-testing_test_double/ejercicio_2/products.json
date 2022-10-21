@@ -1,0 +1,12 @@
+[
+  {
+    "Id": 1,
+    "Stock": 2,
+    "Name": "beer",
+    "Color": "blue",
+    "Code": "blue",
+    "Price": 4.5,
+    "Publish": false,
+    "Date": ""
+  }
+]
