@@ -129,11 +129,12 @@ func TestServiceIntegrationDelete(t *testing.T) {
 	service := NewService(repository)
 
 	// Act.
-	err := service.Delete(1399)
-        product, err := service.GetOne(1399)
+	errDelete := service.Delete(1399)
+        product, errGetone := service.GetOne(1399)
 
 	// Assert.
-	assert.EqualError(t, err, expectedErr.Error())
+	assert.EqualError(t, errGetone, expectedErr.Error())
+        assert.Nil(t, errDelete)
         assert.Empty(t, product)
         assert.Equal(t, len(initialDatabase) - 1, len(expectedDatabase))
 }

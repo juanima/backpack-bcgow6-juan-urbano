@@ -1,18 +1,12 @@
 package handler
 
 import (
-        "os"
         "log"
-        "errors"
 	"net/http"
 	"strconv"
 	"github.com/gin-gonic/gin"
 	"github.com/ejercicio_2/internal/products"
         "github.com/ejercicio_2/pkg/web"
-)
-
-const (
-        TOKEN = "TOKEN"
 )
 
 type ProductRequest struct {
@@ -37,16 +31,6 @@ type Product struct {
 
 func NewProduct(s products.Service) *Product {
 	return &Product{service: s}
-}
-
-func getToken(name string) (string, error) {
-
-        token := os.Getenv(TOKEN) 
-        if token == "" {
-                return token, errors.New("Token no encontrado")
-        }
-        
-        return token, nil
 }
 
 func (p *Product) Status() gin.HandlerFunc {
