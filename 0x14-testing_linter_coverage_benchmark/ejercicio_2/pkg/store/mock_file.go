@@ -24,6 +24,16 @@ func (mo *MockFileStore) Read(data interface{}) error {
 }
 
 func (mo *MockFileStore) Write(data interface{}) error {
+
+	// products, ok := data.(*[]domain.Product)
+	products, ok := data.([]domain.Product)
+        if !ok {
+                return errors.New("Ha pasado write!")
+        }
+
+        // mo.MockedData = append(mo.MockedData, product)
+	 mo.MockedData = products
+
         return nil
 }
 

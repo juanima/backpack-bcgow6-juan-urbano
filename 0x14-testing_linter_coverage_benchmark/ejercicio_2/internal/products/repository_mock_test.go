@@ -61,3 +61,86 @@ func TestUpdateNameBad(t *testing.T) {
 	assert.Equal(t, product, productExpected)
 	assert.Error(t, err)
 }
+
+
+func TestStoreGood(t *testing.T) {
+	// Arrange.
+        publish := false
+	expected := []domain.Product{
+		{
+			Id:    1378,
+			Name:  "Caja de galleticas oreo",
+                        Stock: 90,
+			Color: "blue",
+			Code:  "AC323",
+			Price: 4.5,
+                        Publish: &publish,
+		},
+		{
+			Id:    1399,
+			Name:  "Desodorante Roxana",
+                        Stock: 30,
+			Color: "blue",
+			Code:  "AC324",
+			Price: 4.9,
+                        Publish: &publish,
+		},
+		{
+			Id:    1400,
+			Name:  "Mexana",
+                        Stock: 32,
+			Color: "black",
+			Code:  "AC329",
+			Price: 4.9,
+                        Publish: &publish,
+                },
+	}
+
+	initialDatabase := []domain.Product{
+		{
+			Id:    1378,
+			Name:  "Caja de galleticas oreo",
+                        Stock: 90,
+			Color: "blue",
+			Code:  "AC323",
+			Price: 4.5,
+                        Publish: &publish,
+		},
+		{
+			Id:    1399,
+			Name:  "Desodorante Roxana",
+                        Stock: 30,
+			Color: "blue",
+			Code:  "AC324",
+			Price: 4.9,
+                        Publish: &publish,
+		},
+	}
+
+	storedb := &store.MockFileStore{
+		MockedData: initialDatabase,
+                ReadWasCalled: false,
+	}
+
+	repository := NewRepository(storedb)
+
+	// Act.
+	productToCreate := domain.Product{
+		Id:    1400,
+		Name:  "Mexana",
+                Stock: 32,
+		Color: "black",
+		Code:  "AC329",
+		Price: 4.9,
+                Publish: &publish,
+        }
+
+        // Store(name, color, code string, stock int, price float64, publish *bool)
+	result, err := repository.Store(productToCreate.Name, productToCreate.Color, productToCreate.Code, productToCreate.Stock, productToCreate.Price, productToCreate.Publish)
+
+	// Assert.
+	assert.Nil(t, err)
+	assert.Equal(t, expected, storedb.MockedData)
+	assert.Equal(t, productToCreate, result)
+}
+

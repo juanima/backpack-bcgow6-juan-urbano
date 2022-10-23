@@ -10,7 +10,7 @@ import (
 type Repository interface {
 	GetAll() ([]domain.Product, error)
 	GetOne(id int) (domain.Product, error)
-	Store(name, color, code string, stock int, price float64, publish *bool) (domain.Product, error)
+        Store(name, color, code string, stock int, price float64, publish *bool) (domain.Product, error)
 	FilterProduct(name, color, code string, id, stock int, price float64, publish *bool) ([]*domain.Product, error)
 	Update(name, color, code string, id, stock int, price float64, publish *bool) (domain.Product, error)
 	UpdateStock(id int, stock int) (domain.Product, error)
@@ -88,7 +88,7 @@ func (r *repository) Store(name, color, code string, stock int, price float64, p
 	p := domain.Product{
 		Name: name,
 		Color: color,
-		Code: color,
+		Code: code,
 		Stock: stock,
 		Price: price,
 		Publish: publish,
