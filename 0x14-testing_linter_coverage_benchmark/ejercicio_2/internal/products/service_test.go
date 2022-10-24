@@ -161,3 +161,112 @@ func TestServiceIntegrationDeleteFail(t *testing.T) {
 	// Assert.
 	assert.EqualError(t, err, expectedErr.Error())
 }
+
+
+
+func TestServiceIntegrationGetAll(t *testing.T) {
+	// Arrange.
+        publish := false
+	database := []domain.Product{
+		{
+			Id:    1378,
+			Name:  "Caja de galleticas oreo",
+                        Stock: 90,
+			Color: "blue",
+			Code:  "AC323",
+			Price: 4.5,
+                        Publish: &publish,
+		},
+		{
+			Id:    1399,
+			Name:  "Desodorante Roxana",
+                        Stock: 30,
+			Color: "blue",
+			Code:  "AC324",
+			Price: 4.9,
+                        Publish: &publish,
+		},
+	}
+
+	mockStorage := store.MockFileStoreIntegration{
+		MockedData: database,
+	}
+
+	repository := NewRepository(&mockStorage)
+	service := NewService(repository)
+
+	// Act.
+	results, err := service.GetAll()
+
+	// Assert.
+	assert.Nil(t, err)
+	assert.Equal(t, database, results)
+}
+
+
+func TestServiceIntegrationGetAllFail(t *testing.T) {
+	// Arrange.
+	expectedErr := errors.New("hello, i'm an error :D")
+
+	mockStorage := store.MockFileStoreIntegration{
+		MockedData: nil,
+		ErrOnWrite: nil,
+		ErrOnRead:  errors.New("hello, i'm an error :D"),
+	}
+        
+	repository := NewRepository(&mockStorage)
+	service := NewService(repository)
+
+	// Act.
+	results, err := service.GetAll()
+
+	// Assert.
+	assert.EqualError(t, err, expectedErr.Error())
+	assert.Nil(t, results)
+}
+
+func TestServiceIntegrationUpdateStock(t *testing.T) {
+	// Arrange.
+        publish := false
+	database := []domain.Product{
+		{
+			Id:    1378,
+			Name:  "Caja de galleticas oreo",
+                        Stock: 90,
+			Color: "blue",
+			Code:  "AC323",
+			Price: 4.5,
+                        Publish: &publish,
+		},
+		{
+			Id:    1399,
+			Name:  "Desodorante Roxana",
+                        Stock: 30,
+			Color: "blue",
+			Code:  "AC324",
+			Price: 4.9,
+                        Publish: &publish,
+		},
+	}
+
+	mockStorage := store.MockFileStoreIntegration{
+		MockedData: database,
+                ReadWasCalled: false,
+	}
+
+	repository := NewRepository(&mockStorage)
+	service := NewService(repository)
+
+	// Act.
+	product, err := service.UpdateStock(1378, 32) 
+
+	// Assert.
+	assert.Nil(t, err)
+        assert.Equal(t, database[0], product)
+}
+
+/*
+func TestServiceIntegrationStore(t *testing.T) {
+}
+*/
+
