@@ -8,6 +8,18 @@ Se debe medir el Coverage del proyecto Go - Web, para eso se deben seguir los si
 2. Generar el coverage report del proyecto Go - Web
 3. Identificar todos las partes del código que no tienen o tienen poca cobertura.
 
+# Ejercicio 3
+
+## Enunciated *_Aumentar el coverage_*
+
+Para mejorar la calidad del código se debe aumentar el coverage del proyecto Go - Web, seguir los siguientes pasos:
+
+1. Después de identificar las partes del código que no tienen cobertura, se debe elegir una o más partes del código donde sea razonable aumentar la cobertura.
+2. Aumentar la cobertura de las partes elegidas.
+3. Comparar el code coverage y el coverage report actual contra el anterior.
+
+
+
 ## Estructura de directorios
 
 ```bash
@@ -52,62 +64,100 @@ Se debe medir el Coverage del proyecto Go - Web, para eso se deben seguir los si
 11 directories, 25 files
 ```
 
-# Part 1: Install golangci-lint
+# Part 1: Initial coverage
+
+* Analisis de archivos con test propuestos
 
 ```bash
-$ golangci-lint --version
-golangci-lint has version 1.50.1 built from 8926a95 on 2022-10-22T10:48:48Z
+$ go test -cover ./...
+?       github.com/ejercicio_2/cmd/server       [no test files]
+?       github.com/ejercicio_2/cmd/server/handler       [no test files]
+?       github.com/ejercicio_2/docs     [no test files]
+?       github.com/ejercicio_2/internal/domain  [no test files]
+ok      github.com/ejercicio_2/internal/products        0.860s  coverage: 51.7% of statements
+?       github.com/ejercicio_2/pkg/store        [no test files]
+?       github.com/ejercicio_2/pkg/web  [no test files]
 $
 ```
 
-# Part 2:
-
-* Nos ubicamos en la raíz del proyecto
-* Errores encontrados `before`
+* Directorio `./internal/products` donde se presentó el análisis de covertura
 
 ```bash
-$ golangci-lint run
-cmd/server/handler/handler.go:42:6: func `getToken` is unused (unused)
-func getToken(name string) (string, error) {
-     ^
-internal/domain/product.go:4:9: structtag: struct field tag `json: "id"` not compatible with reflect.StructTag.Get: bad syntax for struct tag value (govet)
-        Id      int     `json: "id"`
-        ^
-internal/domain/product.go:5:2: structtag: struct field tag `json: "stock"` not compatible with reflect.StructTag.Get: bad syntax for struct tag value (govet)
-        Stock   int     `json: "stock"`
-        ^
-internal/domain/product.go:6:2: structtag: struct field tag `json: "name"` not compatible with reflect.StructTag.Get: bad syntax for struct tag value (govet)
-        Name    string  `json: "name"`
-        ^
-internal/domain/product.go:7:2: structtag: struct field tag `json: "color"` not compatible with reflect.StructTag.Get: bad syntax for struct tag value (govet)
-        Color   string  `json: "color"`
-        ^
-internal/domain/product.go:8:2: structtag: struct field tag `json: "code"` not compatible with reflect.StructTag.Get: bad syntax for struct tag value (govet)
-        Code    string  `json: "code"`
-        ^
-internal/domain/product.go:9:2: structtag: struct field tag `json: "price"` not compatible with reflect.StructTag.Get: bad syntax for struct tag value (govet)
-        Price   float64 `json: "price"`
-        ^
-internal/domain/product.go:10:2: structtag: struct field tag `json: "publish"` not compatible with reflect.StructTag.Get: bad syntax for struct tag value (govet)
-        Publish *bool   `json: "publish"`
-        ^
-internal/domain/product.go:11:2: structtag: struct field tag `json: "date"` not compatible with reflect.StructTag.Get: bad syntax for struct tag value (govet)
-        Date    string  `json: "date"`
-        ^
-internal/products/service_test.go:132:2: ineffectual assignment to err (ineffassign)
-        err := service.Delete(1399)
-        ^
+$ ls -1 internal/products/
+repository.go
+repository_mock_test.go
+repository_stub_test.go
+service.go
+service_test.go
 $
+```
+
+> Archivos test: `repository_mock_test.go`,  `repository_mock_test.go`,  `repository_mock_test.go` y `service_test.go`  
+
+# Part 2: Coverage report
+
+```bash
+$ go test -cover -coverprofile=coverage.out ./...
+?       github.com/ejercicio_2/cmd/server       [no test files]
+?       github.com/ejercicio_2/cmd/server/handler       [no test files]
+?       github.com/ejercicio_2/docs     [no test files]
+?       github.com/ejercicio_2/internal/domain  [no test files]
+ok      github.com/ejercicio_2/internal/products        0.386s  coverage: 51.7% of statements
+?       github.com/ejercicio_2/pkg/store        [no test files]
+?       github.com/ejercicio_2/pkg/web  [no test files]
+$
+```
+
+* Archivo `coverage.out` generado luego del ejecutar el comando para generar el reporte
+
+```bash
+$ ls -l
+total 112
+-rw-r--r--@ 1 juurbano  1010544492   4517 Oct 23 16:29 README.md
+drwxr-xr-x  3 juurbano  1010544492     96 Oct 23 10:41 cmd
+-rw-r--r--  1 juurbano  1010544492   5301 Oct 23 16:32 coverage.out
+-rw-r--r--  1 juurbano  1010544492    144 Oct 23 10:41 create_products.json
+drwxr-xr-x  5 juurbano  1010544492    160 Oct 23 10:41 docs
+-rw-r--r--  1 juurbano  1010544492   1916 Oct 23 10:41 go.mod
+-rw-r--r--  1 juurbano  1010544492  16542 Oct 23 10:41 go.sum
+drwxr-xr-x  3 juurbano  1010544492     96 Oct 23 10:41 images
+drwxr-xr-x  4 juurbano  1010544492    128 Oct 23 10:41 internal
+-rw-r--r--  1 juurbano  1010544492     21 Oct 23 10:41 patch_products.json
+drwxr-xr-x  4 juurbano  1010544492    128 Oct 23 10:41 pkg
+-rw-r--r--  1 juurbano  1010544492    156 Oct 23 10:41 products.json
+-rw-r--r--  1 juurbano  1010544492    144 Oct 23 10:41 update_products.json
+$
+```
+
+```bash
+
 ```
 
 # Part 3
 
-* Luego de resolver los errores `after`
+* Luego de aumentar agregar covertura a los test existentes y agregar nuevos test tanto para `service.go` y `repository.go`
 
 ```bash
-$ golangci-lint run
+$ go test -cover -coverprofile=coverage.out ./...
+?       github.com/ejercicio_2/cmd/server       [no test files]
+?       github.com/ejercicio_2/cmd/server/handler       [no test files]
+?       github.com/ejercicio_2/docs     [no test files]
+?       github.com/ejercicio_2/internal/domain  [no test files]
+ok      github.com/ejercicio_2/internal/products        0.357s  coverage: 80.5% of statements
+?       github.com/ejercicio_2/pkg/store        [no test files]
+?       github.com/ejercicio_2/pkg/web  [no test files]
 $
 ```
+
+# Parte 4
+
+```
+ok      github.com/ejercicio_2/internal/products        0.386s  coverage: 51.7% of statements
+ok      github.com/ejercicio_2/internal/products        0.357s  coverage: 80.5% of statements
+```
+
+* Con esto podemos notar que `30%` de la covertura ha aumentado, cubriendo en la mayoria los casos positivos 
+
 
 ---
 
