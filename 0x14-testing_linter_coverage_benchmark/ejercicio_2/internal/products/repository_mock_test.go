@@ -144,3 +144,79 @@ func TestStoreGood(t *testing.T) {
 	assert.Equal(t, productToCreate, result)
 }
 
+func TestUpdateStockGood(t *testing.T) {
+
+	// Arrange
+        publish := false
+        expectedStockUpdate := 99
+	productsExpected := []domain.Product{
+		{
+			Id:    1378,
+			Name:  "Caja de galleticas oreo",
+                        Stock: 90,
+			Color: "blue",
+			Code:  "AC323",
+			Price: 4.5,
+                        Publish: &publish,
+		},
+	}
+
+	// db := store.New(store.FileType, "./products.json")
+	storedb := &store.MockFileStore{
+		MockedData: productsExpected,
+                ReadWasCalled: false,
+	}
+
+	repo := NewRepository(storedb)
+
+	// Act
+	product, err := repo.UpdateStock(1378, expectedStockUpdate)
+
+	// Assert
+        assert.True(t, storedb.ReadWasCalled)
+	assert.Equal(t, product.Stock, expectedStockUpdate)
+	assert.Nil(t, nil, err)
+}
+
+
+func TestFilterGood(t *testing.T) {
+
+	// Arrange
+        publish := false
+	productsExpected := []domain.Product{
+		{
+			Id:    1378,
+			Name:  "Caja de galleticas oreo",
+                        Stock: 90,
+			Color: "blue",
+			Code:  "AC323",
+			Price: 4.5,
+                        Publish: &publish,
+		},
+	}
+
+	// db := store.New(store.FileType, "./products.json")
+	storedb := &store.MockFileStore{
+		MockedData: productsExpected,
+                ReadWasCalled: false,
+	}
+
+	repo := NewRepository(storedb)
+
+	// Act
+	// FilterProduct(name, color, code string, id, stock int, price float64, publish *bool) ([]*domain.Product, error)
+	productsFiltered, err := repo.FilterProduct(
+                productsExpected[0].Name,
+                productsExpected[0].Color,
+                productsExpected[0].Code,
+                productsExpected[0].Id,
+                productsExpected[0].Stock,
+                productsExpected[0].Price,
+                productsExpected[0].Publish,
+        )
+
+	// Assert
+	assert.Equal(t, len(productsFiltered), len(storedb.MockedData) - 1)
+	// assert.Equal(t, product.Stock, expectedStockUpdate)
+	assert.Nil(t, nil, err)
+}
