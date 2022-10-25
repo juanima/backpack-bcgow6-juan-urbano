@@ -20,8 +20,10 @@ Se requiere probar la funcionalidad de “actualización de producto”, pudiend
 │   └── server
 │       ├── handler
 │       │   ├── handler.go
+│       │   ├── handler_test.go
 │       │   └── middleware.go
 │       └── main.go
+├── coverage.out
 ├── create_products.json
 ├── docs
 │   ├── docs.go
@@ -50,105 +52,29 @@ Se requiere probar la funcionalidad de “actualización de producto”, pudiend
 │   └── web
 │       └── response.go
 ├── products.json
+├── servic
+├── test
+│   ├── hello
+│   │   ├── mock_repository.go
+│   │   ├── mock_service.go
+│   │   └── mock_store.go
+│   └── products_test.go
 └── update_products.json
 
-11 directories, 25 files
+13 directories, 32 files
 ```
 
-# Part 1: Initial coverage
+## Testing Update
 
-* Analisis de archivos con test propuestos
+* Functional test para la UpdateProduct
 
 ```bash
-$ go test -cover ./...
-?       github.com/ejercicio_2/cmd/server       [no test files]
-?       github.com/ejercicio_2/cmd/server/handler       [no test files]
-?       github.com/ejercicio_2/docs     [no test files]
-?       github.com/ejercicio_2/internal/domain  [no test files]
-ok      github.com/ejercicio_2/internal/products        0.860s  coverage: 51.7% of statements
-?       github.com/ejercicio_2/pkg/store        [no test files]
-?       github.com/ejercicio_2/pkg/web  [no test files]
-$
+$ go test -v ./test/
+=== RUN   TestUpdateGood
+[GIN] 2022/10/25 - 17:06:34 | 200 |     307.208µs |       192.0.2.1 | PUT      "/api/v1/products/1379"
+--- PASS: TestUpdateGood (0.00s)
+PASS
+ok      github.com/ejercicio_2/test     0.958s
 ```
 
-* Directorio `./internal/products` donde se presentó el análisis de covertura
-
-```bash
-$ ls -1 internal/products/
-repository.go
-repository_mock_test.go
-repository_stub_test.go
-service.go
-service_test.go
-$
-```
-
-> Archivos test: `repository_mock_test.go`,  `repository_mock_test.go`,  `repository_mock_test.go` y `service_test.go`  
-
-# Part 2: Coverage report
-
-```bash
-$ go test -cover -coverprofile=coverage.out ./...
-?       github.com/ejercicio_2/cmd/server       [no test files]
-?       github.com/ejercicio_2/cmd/server/handler       [no test files]
-?       github.com/ejercicio_2/docs     [no test files]
-?       github.com/ejercicio_2/internal/domain  [no test files]
-ok      github.com/ejercicio_2/internal/products        0.386s  coverage: 51.7% of statements
-?       github.com/ejercicio_2/pkg/store        [no test files]
-?       github.com/ejercicio_2/pkg/web  [no test files]
-$
-```
-
-* Archivo `coverage.out` generado luego del ejecutar el comando para generar el reporte
-
-```bash
-$ ls -l
-total 112
--rw-r--r--@ 1 juurbano  1010544492   4517 Oct 23 16:29 README.md
-drwxr-xr-x  3 juurbano  1010544492     96 Oct 23 10:41 cmd
--rw-r--r--  1 juurbano  1010544492   5301 Oct 23 16:32 coverage.out
--rw-r--r--  1 juurbano  1010544492    144 Oct 23 10:41 create_products.json
-drwxr-xr-x  5 juurbano  1010544492    160 Oct 23 10:41 docs
--rw-r--r--  1 juurbano  1010544492   1916 Oct 23 10:41 go.mod
--rw-r--r--  1 juurbano  1010544492  16542 Oct 23 10:41 go.sum
-drwxr-xr-x  3 juurbano  1010544492     96 Oct 23 10:41 images
-drwxr-xr-x  4 juurbano  1010544492    128 Oct 23 10:41 internal
--rw-r--r--  1 juurbano  1010544492     21 Oct 23 10:41 patch_products.json
-drwxr-xr-x  4 juurbano  1010544492    128 Oct 23 10:41 pkg
--rw-r--r--  1 juurbano  1010544492    156 Oct 23 10:41 products.json
--rw-r--r--  1 juurbano  1010544492    144 Oct 23 10:41 update_products.json
-$
-```
-
-```bash
-
-```
-
-# Part 3
-
-* Luego de aumentar agregar covertura a los test existentes y agregar nuevos test tanto para `service.go` y `repository.go`
-
-```bash
-$ go test -cover -coverprofile=coverage.out ./...
-?       github.com/ejercicio_2/cmd/server       [no test files]
-?       github.com/ejercicio_2/cmd/server/handler       [no test files]
-?       github.com/ejercicio_2/docs     [no test files]
-?       github.com/ejercicio_2/internal/domain  [no test files]
-ok      github.com/ejercicio_2/internal/products        0.357s  coverage: 80.5% of statements
-?       github.com/ejercicio_2/pkg/store        [no test files]
-?       github.com/ejercicio_2/pkg/web  [no test files]
-$
-```
-
-# Parte 4
-
-```
-ok      github.com/ejercicio_2/internal/products        0.386s  coverage: 51.7% of statements
-ok      github.com/ejercicio_2/internal/products        0.357s  coverage: 80.5% of statements
-```
-
-* Con esto podemos notar que `30%` de la covertura ha aumentado, cubriendo en la mayoria los casos positivos 
-
-
----
 

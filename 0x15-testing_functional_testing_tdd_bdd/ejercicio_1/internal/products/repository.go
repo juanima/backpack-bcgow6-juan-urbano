@@ -151,7 +151,7 @@ func (r *repository) Update(name, color, code string, id, stock int, price float
 	product = domain.Product{
 		Name: name,
 		Color: color,
-		Code: color,
+		Code: code,
 		Stock: stock,
 		Price: price,
 		Publish: publish,
