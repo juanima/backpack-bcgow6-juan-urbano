@@ -1,7 +1,4 @@
 # desafio-cierre-testing
-Proyecto Base para cumplir el Desafio de Testing
-
-# desafio-cierre-testing
 
 Ya está desarrollada una API que lista artículos disponibles para un vendedor determinado. Esta API no ha podido implementarse porque no cumple con los requisitos mínimos de calidad. Debe contener los tests necesarios para cubrir un 80% de coverage.
 
@@ -81,6 +78,34 @@ PASS
 ok      github.com/bootcamp-go/desafio-cierre-testing/internal/products 1.177s
 $
 ```
+
+## Part 3: Unit test service using repository mock
+
+> Aquí podemos observar el `coverage` promedio de todo el proyecto
+
+```bash
+$ go test -cover -v ./...
+?       github.com/bootcamp-go/desafio-cierre-testing/cmd       [no test files]
+?       github.com/bootcamp-go/desafio-cierre-testing/cmd/router        [no test files]
+=== RUN   TestHandlerGetProductsGood
+[GIN] 2022/10/26 - 17:18:35 | 200 |     189.958µs |       192.0.2.1 | GET      "/api/v1/products?seller_id=FEX112AC"
+--- PASS: TestHandlerGetProductsGood (0.00s)
+=== RUN   TestHandlerGetProductsFail
+[GIN] 2022/10/26 - 17:18:35 | 500 |       7.416µs |       192.0.2.1 | GET      "/api/v1/products?seller_id=FEX112AC"
+--- PASS: TestHandlerGetProductsFail (0.00s)
+=== RUN   TestServiceGetAllBySellerGood
+--- PASS: TestServiceGetAllBySellerGood (0.00s)
+=== RUN   TestServiceGetAllBySellerFail
+2022/10/26 17:18:35 error in repository No encontró sellerID = FEX112AC sellerId: FEX112AC
+--- PASS: TestServiceGetAllBySellerFail (0.00s)
+PASS
+coverage: 81.8% of statements
+ok      github.com/bootcamp-go/desafio-cierre-testing/internal/products 1.640s  coverage: 81.8% of statements
+$
+```
+
+---
+
 
 ## Extra
 
