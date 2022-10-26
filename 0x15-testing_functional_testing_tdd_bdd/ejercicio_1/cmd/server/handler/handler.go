@@ -337,11 +337,14 @@ func (p *Product) Delete() gin.HandlerFunc {
 	        	return
 	        }
 
-	        if err := p.service.Delete(id); err != nil {
+                if err := p.service.Delete(id); err != nil {
 	        	c.JSON(http.StatusNotFound, web.NewResponse(http.StatusBadRequest, nil, err.Error()))
 	        	return
 	        }
 
-	        c.JSON(http.StatusNoContent, web.NewResponse(http.StatusBadRequest, nil, err.Error()))
+                // log.Printf("----- %+v\n", err.Error())
+
+	        // c.JSON(http.StatusNoContent, web.NewResponse(http.StatusNoContent, nil, err.Error()))
+                c.JSON(http.StatusNoContent, err)
         }
 }

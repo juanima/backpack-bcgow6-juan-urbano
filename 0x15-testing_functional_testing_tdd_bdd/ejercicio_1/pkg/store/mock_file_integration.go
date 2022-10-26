@@ -37,6 +37,7 @@ func (mo *MockFileStoreIntegration) Write(data interface{}) (err error) {
 		return mo.ErrOnWrite
 	}
 
+        // Interfaces can be casted to a concrete type that implements it
 	// products, ok := data.(*[]domain.Product)
 	products, ok := data.([]domain.Product)
         if !ok {

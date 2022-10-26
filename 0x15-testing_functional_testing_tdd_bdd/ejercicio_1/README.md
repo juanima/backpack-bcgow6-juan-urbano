@@ -1,15 +1,26 @@
-# Ejercicio 2
+# Ejercicio 1
 
 ## Enunciated *_Functional Testing Update()_*
 
 Se requiere probar la funcionalidad de “actualización de producto”, pudiendo reutilizar las funciones creadas en la clase. Para lograrlo realizar los siguientes pasos:
 
-* Dentro de la carpeta /test, crear un archivo `products_test.go`.
-* Levantar el Servidor y definir la ruta para este test.
-* Crear Request y Response apropiados.
-* Solicitar al servidor que atienda al Request.
-* Validar Response.
- 
+1. Dentro de la carpeta /test, crear un archivo `products_test.go`.
+2. Levantar el Servidor y definir la ruta para este test.
+3. Crear Request y Response apropiados.
+4. Solicitar al servidor que atienda al Request.
+5. Validar Response.
+
+# Ejercicio 2
+
+## Enunciated *_Functional Testing Delete()_*
+
+Se solicita probar la funcionalidad de “eliminar producto”, pudiendo reutilizar las funciones creadas en la clase. Para lograrlo realizar los siguientes pasos:
+
+1. Dentro de la carpeta `/test`, crear un archivo `products_test.go`.
+2. Levantar el Servidor y definir la ruta para este test.
+3. Crear Request y Response apropiados.
+4. Solicitar al servidor que atienda al Request.
+5. Validar Response.
 
 ## Estructura de directorios
 
@@ -71,10 +82,13 @@ Se requiere probar la funcionalidad de “actualización de producto”, pudiend
 ```bash
 $ go test -v ./test/
 === RUN   TestUpdateGood
-[GIN] 2022/10/25 - 17:06:34 | 200 |     307.208µs |       192.0.2.1 | PUT      "/api/v1/products/1379"
+[GIN] 2022/10/25 - 19:33:45 | 200 |     258.167µs |       192.0.2.1 | PUT      "/api/v1/products/1379"
 --- PASS: TestUpdateGood (0.00s)
+=== RUN   TestDeleteGood
+[GIN] 2022/10/25 - 19:33:45 | 204 |       2.042µs |       192.0.2.1 | DELETE   "/api/v1/products/1379"
+--- PASS: TestDeleteGood (0.00s)
 PASS
-ok      github.com/ejercicio_2/test     0.958s
+ok      github.com/ejercicio_2/test     (cached)
 ```
 
 

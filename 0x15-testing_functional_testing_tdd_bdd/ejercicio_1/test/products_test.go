@@ -1,6 +1,7 @@
 package test
 
 import (
+        // "fmt"
 	"bytes"
 	"encoding/json"
 	"net/http"
@@ -29,6 +30,7 @@ func createServer(mockStore hello.MockFileStoreIntegration) *gin.Engine {
 	api := router.Group("/api/v1")
 	pr := api.Group("/products")
         pr.PUT("/:id", control.Update())
+        pr.DELETE("/:id", control.Delete())
 
 	return router
 }
@@ -104,5 +106,48 @@ func TestUpdateGood(t *testing.T) {
 	assert.Equal(t, http.StatusOK, rr.Code)
 	assert.Nil(t, err)
 	assert.Equal(t, expected, resp)
+}
+
+
+func TestDeleteGood(t *testing.T) {
+	// Arrange
+        publish := false
+	initialProducts:= []domain.Product{
+                {
+                        Id: 1379,
+		        Name:  "Beer",
+                        Stock: 90,
+		        Color: "blue",
+		        Code:  "AC353",
+		        Price: 4.5,
+                        Publish: &publish,
+                        Date: "January",
+                },
+                {
+                        Id: 1380,
+		        Name:  "Bycle",
+                        Stock: 9,
+		        Color: "red",
+		        Code:  "AC359",
+		        Price: 40.5,
+                        Publish: &publish,
+                        Date: "December",
+                },
+	}
+
+	mockStore := hello.MockFileStoreIntegration{
+		MockedData: initialProducts,
+	}
+
+	router := createServer(mockStore)
+	req, rr := createRequestTest(http.MethodDelete, "/api/v1/products/1379", "")
+
+        // Act
+	router.ServeHTTP(rr, req)
+
+        // fmt.Printf("%+v\n", rr)
+
+	// Assert
+        assert.Equal(t, http.StatusNoContent, rr.Code)
 }
 
