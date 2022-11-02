@@ -43,15 +43,15 @@ CREATE TABLE customer (
 );
 
 INSERT INTO customer (dni, first_name, last_name, date_of_birth, provincia, ciudad, plan_id) VALUES 
-(34546, 'Camilo', 'Rodriguez', '2008-12-01 00:01:01', 'Colorado', 'Bogota', 1234),
-(34547, 'Camilo', 'Rodriguez', '2008-10-01 00:02:01', 'Colorado', 'Bogota', 1234),
-(34548, 'Camilo', 'Rodriguez', '2008-03-01 00:04:01', 'Colorado', 'Bogota', 1234),
-(34549, 'Camilo', 'Rodriguez', '2008-04-01 00:03:01', 'Colorado', 'Bogota', 1234),
-(34556, 'Camilo', 'Rodriguez', '2008-05-01 00:06:01', 'Colorado', 'Bogota', 1234),
-(34557, 'Camilo', 'Rodriguez', '2008-06-01 00:09:01', 'Colorado', 'Bogota', 1234),
-(34558, 'Camilo', 'Rodriguez', '2008-07-01 00:10:01', 'Colorado', 'Bogota', 1234),
-(34559, 'Camilo', 'Rodriguez', '2008-09-01 00:11:01', 'Colorado', 'Bogota', 1234),
-(34551, 'Camilo', 'Rodriguez', '2008-08-01 00:50:01', 'Colorado', 'Bogota', 1234),
-(34552, 'Camilo', 'Rodriguez', '2008-11-01 00:40:01', 'Colorado', 'Bogota', 1234)
+(34546, 'Camilo', 'Cuadros', '2008-12-01 00:01:01', 'California', 'Bogota', 1234),
+(34547, 'Andres', 'Canaviri', '2008-10-01 00:02:01', 'Colorado', 'Paz', 1235),
+(34548, 'Hernan', 'Neira', '2008-03-01 00:04:01', 'Madrid', 'Washington', 1236),
+(34549, 'Ricardo', 'Jacobs', '2008-04-01 00:03:01', 'Cordoba', 'Londres', 1237),
+(34556, 'Sarah', 'Suarez', '2008-05-01 00:06:01', 'Paz', 'Manchester', 1238),
+(34557, 'Damian', 'Niz', '2008-06-01 00:09:01', 'Valley', 'Paris', 1234),
+(34558, 'Jesus', 'Ortiz', '2008-07-01 00:10:01', 'LA', 'Bangkok', 1235),
+(34559, 'David', 'Díaz', '2008-09-01 00:11:01', 'Quito', 'Roma', 1236),
+(34551, 'Joel', 'Sanchez', '2008-08-01 00:50:01', 'Patagonia', 'Barcelona', 1237),
+(34552, 'Ivanna', 'Cingolani', '2008-11-01 00:40:01', 'Estonia', 'Berlin', 1238)
 ;
 
