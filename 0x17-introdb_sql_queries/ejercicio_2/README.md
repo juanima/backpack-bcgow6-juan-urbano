@@ -40,7 +40,58 @@ c. ¿Cómo serían las relaciones entre tablas? ¿En qué tabla debería haber f
 * 1 cliente solo puede contratar un servicio un plan con la compañia IT
 * 1 paquete puede tenerlo muchos clientes
         
+### *Ejercicio 3*
 
+Una vez realizado el planteo del diagrama y de haber respondido estas preguntas, utilizar PHPMyAdmin o MySQL Workbench para ejecutar lo siguiente:
 
+a. Se solicita crear una nueva base de datos llamada `empresa_internet`. 
+b. Incorporar 10 registros en la tabla de clientes y 5 en la tabla de planes de internet.
+c. Realizar las asociaciones/relaciones correspondientes entre estos registros.
+
+Run the sql script `./database/company_internet.sql`
+
+* Import your database
+
+```bash
+$ mysql -uroot -p < ./database/company_internet.sql
+Enter password:
+$
+```
+
+* Interative with your database
+
+```bash
+$ mysql -uroot -p
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 65
+Server version: 8.0.31 Homebrew
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| empresa_internet   |
+| information_schema |
+| melisprint         |
+| movies_db          |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+7 rows in set (0.01 sec)
+
+mysql> exit
+Bye
+$
+```
 
 
