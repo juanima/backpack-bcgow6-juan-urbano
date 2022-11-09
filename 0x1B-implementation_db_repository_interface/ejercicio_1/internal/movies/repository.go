@@ -7,6 +7,10 @@ import (
 
 	"github.com/bootcamp-go/storage/internal/domain"
 )
+const (
+        STORE_MOVIE = "INSERT INTO movies (title, rating, awards, length, release_date) VALUES (?,?,?,?,?)"
+        GET_MOVIE_BY_TITLE = "SELECT id, title, rating, awards, length, genre_id FROM Movies WHERE title = ?;"
+)
 
 type Repository interface {
 	Store(p domain.Movie) (int, error)
@@ -24,7 +28,7 @@ type repository struct {
 /* Ejercicio 2 - Replicar Store() */
 func (r *repository) Store(p domain.Movie) (int, error) {
 
-	stmt, err := r.db.Prepare("INSERT INTO movies (title, rating, awards, length, release_date) VALUES (?,?,?,?,?)")
+	stmt, err := r.db.Prepare(STORE_MOVIE)
 	if err != nil {
 		return 0, fmt.Errorf("error al preparar la consulta - error %v", err)
 	}
@@ -46,7 +50,7 @@ func (r *repository) Store(p domain.Movie) (int, error) {
 // Ejercicio 1 - Implementar GetByName()
 func (r *repository) GetByName(title string) (domain.Movie, error) {
 
-	stmt, err := r.db.Prepare("SELECT id, title, rating, awards, length, genre_id FROM Movies WHERE title = ?;")
+	stmt, err := r.db.Prepare(GET_MOVIE_BY_TITLE)
 	if err != nil {
                 log.Printf("My error is %+v\n", err)
 		return domain.Movie{}, fmt.Errorf("error al preparar la consulta - error %v", err)

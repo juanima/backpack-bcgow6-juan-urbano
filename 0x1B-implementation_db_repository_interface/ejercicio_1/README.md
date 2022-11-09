@@ -1,26 +1,12 @@
-# Test
+# Práctica clase 1 - Storage Implementation
 
-## Ejercicio 1 - Implementar GetByName()
-Desarrollar un método en el repositorio que permita hacer búsquedas de un producto por nombre. Para lograrlo se deberá:
+## Ejercicio 1 - Refactor de repository 
 
--  Diseñar interfaz “Repository” en la que exista un método GetByName() que reciba por parámetro un string y retorna una estructura del tipo Product.
+Aplicar las buenas prácticas y recomendaciones para refactorizar el código de la capa repository.
 
--  Implementar el método de forma que con el string recibido lo use para buscar en la DB por el campo “name”.
+* Almacenar las queries como constantes.
+* No utilizar ”select `*”` en las queries.
 
-
-
-## Ejercicio 2 - Replicar Store()
-Tomar el ejemplo visto en la clase y diseñar el método Store():
-Puede tomar de ejemplo la definición del método Store visto en clase para incorporarlo en la interfaz.
-Implementar el método Store.
-
-
-
-## Ejercicio 3 - Ejecutar Store()
-Diseñar un Test que permita ejecutar Store y comprobar la correcta inserción del registro en la tabla.
-
-## Ejercicio 4 - Ejecutar GetByName()
-Diseñar un Test que permita ejecutar GetByName y comprobar que retorne el registro buscado en caso de que exista. 
 
 # Run
 

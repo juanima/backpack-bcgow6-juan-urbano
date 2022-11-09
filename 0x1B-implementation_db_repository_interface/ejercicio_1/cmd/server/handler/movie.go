@@ -84,3 +84,5 @@ func (s *Movie) GetByName() gin.HandlerFunc {
 		c.JSON(http.StatusOK, web.NewResponse(product, "", http.StatusOK))
 	}
 }
+
+
