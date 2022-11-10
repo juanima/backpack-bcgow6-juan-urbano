@@ -16,8 +16,14 @@ $ go test -v ./internal/movies/
 --- PASS: TestSave (0.00s)
     --- PASS: TestSave/Store_Ok (0.00s)
     --- PASS: TestSave/Store_Fail (0.00s)
+=== RUN   Test_RepositoryGetAll
+=== RUN   Test_RepositoryGetAll/GetAll_Ok
+=== RUN   Test_RepositoryGetAll/GetAll_Fail
+--- PASS: Test_RepositoryGetAll (0.00s)
+    --- PASS: Test_RepositoryGetAll/GetAll_Ok (0.00s)
+    --- PASS: Test_RepositoryGetAll/GetAll_Fail (0.00s)
 PASS
-ok      github.com/bootcamp-go/storage/internal/movies  (cached)
+ok      github.com/bootcamp-go/storage/internal/movies  0.906s
 $
 ```
 

@@ -80,3 +80,57 @@ func TestSave(t *testing.T) {
 	})
 }
 
+func Test_RepositoryGetAll(t *testing.T) {
+
+        length, genre_id := 0, 1
+        length2, genre_id2 := 2, 2
+
+	t.Run("GetAll Ok", func(t *testing.T) {
+
+	        db, mock, err := sqlmock.New()
+	        assert.NoError(t, err)
+	        defer db.Close()
+	        // Columns
+
+	        columns := []string{"id", "title", "rating", "awards", "length", "genre_id"}
+	        rows := sqlmock.NewRows(columns)
+	        movies := []domain.Movie{{ID: 1, Title: "Avatar", Rating: 22, Awards: 99, Length: &length, Genre_id: &genre_id}, {ID: 2, Title: "Simpson", Rating: 33, Awards: 11, Length: &length2, Genre_id: &genre_id2}}
+
+	        for _, movie := range movies {
+	        	rows.AddRow(movie.ID, movie.Title, movie.Rating, movie.Awards, movie.Length, movie.Genre_id)
+	        }
+
+	        mock.ExpectQuery(regexp.QuoteMeta(GET_ALL_MOVIES)).WillReturnRows(rows)
+
+	        repo := NewRepository(db)
+	        resultMovies, err := repo.GetAll(context.TODO())
+
+	        assert.NoError(t, err)
+	        assert.Equal(t, movies, resultMovies)
+	        assert.NoError(t, mock.ExpectationsWereMet())
+        })
+
+        t.Run("GetAll Fail", func(t *testing.T) {
+
+                db, mock, err := sqlmock.New()
+	        assert.NoError(t, err)
+	        defer db.Close()
+	        // Columns
+	        columns := []string{"id", "title", "rating", "awards", "length", "genre_id"}
+	        rows := sqlmock.NewRows(columns)
+	        movies := []domain.Movie{{ID: 1, Title: "Avatar", Rating: 22, Awards: 99, Length: &length, Genre_id: &genre_id}, {ID: 2, Title: "Simpson", Rating: 33, Awards: 11, Length: &length2, Genre_id: &genre_id2}}
+
+	        for _, movie := range movies {
+	        	rows.AddRow(movie.ID, movie.Title, movie.Rating, movie.Awards, movie.Length, movie.Genre_id)
+	        }
+
+	        mock.ExpectQuery(regexp.QuoteMeta(GET_ALL_MOVIES)).WillReturnError(ERRORFORZADO)
+
+	        repo := NewRepository(db)
+	        resultMovies, err := repo.GetAll(context.TODO())
+
+	        assert.EqualError(t, err, ERRORFORZADO.Error())
+	        assert.Empty(t, resultMovies)
+	        assert.NoError(t, mock.ExpectationsWereMet())
+        })
+}
