@@ -3,6 +3,7 @@ package movies
 import (
 	"fmt"
         "log"
+        "errors"
         "context"
 	"database/sql"
 
@@ -12,12 +13,15 @@ const (
         STORE_MOVIE = "INSERT INTO movies (title, rating, awards, length, release_date) VALUES (?,?,?,?,?)"
         GET_MOVIE_BY_TITLE = "SELECT id, title, rating, awards, length, genre_id FROM Movies WHERE title = ?;"
 	GET_ALL_MOVIES = "SELECT m.id ,m.title, m.rating, m.awards, m.length, m.genre_id FROM movies m;"
+	DELETE_MOVIE = "DELETE FROM movies WHERE id=?;"
 )
 
 type Repository interface {
 	Store(p domain.Movie) (int, error)
 	GetByName(name string) (domain.Movie, error)
         GetAll(c context.Context) ([]domain.Movie, error)
+        Delete(c context.Context, id int64) error
+
 }
 
 func NewRepository(db *sql.DB) Repository {
@@ -88,5 +92,31 @@ func (r *repository) GetByName(title string) (domain.Movie, error) {
 	}
 
 	return movie, nil
+}
+
+func (r *repository) Delete(c context.Context, id int64) error {
+
+	stm, err := r.db.Prepare(DELETE_MOVIE)
+	if err != nil {
+		return err
+	}
+
+	defer stm.Close()
+
+	result, err := stm.Exec(id)
+	if err != nil {
+		return err
+	}
+
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if affected != 1 {
+		return errors.New("error: no affected rows")
+	}
+
+	return nil
 }
 

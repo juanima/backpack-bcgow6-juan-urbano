@@ -9,6 +9,7 @@ type Service interface {
 	Store(domain.Movie) (int, error)
 	GetByName(name string) (domain.Movie, error)
         GetAll(c context.Context) ([]domain.Movie, error)
+        Delete(c context.Context, id int64) error
 }
 
 type service struct {
@@ -34,4 +35,8 @@ func (s *service) GetAll(c context.Context) ([]domain.Movie, error) {
 
 func (s *service) GetByName(name string) (domain.Movie, error) {
 	return s.repository.GetByName(name)
+}
+
+func (s *service) Delete(c context.Context, id int64) error {
+	return s.repository.Delete(c, id)
 }

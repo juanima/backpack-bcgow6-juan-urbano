@@ -1,9 +1,9 @@
 # Práctica clase 1 - Storage Implementation
 
-## Ejercicio 2 - Implementar GETALL()
+## Ejercicio 2 - Implementar DELETE()
 
-Diseñar un método GetAll.
-1. Dentro del archivo repository desarrollar el método GetAll().
+Diseñar un método para eliminar un recurso de la base de datos.
+1. Dentro del archivo repository desarrollar el método Delete().
 2. Comprobar el correcto funcionamiento.
 
 # Run
@@ -131,5 +131,25 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 $
 ```
 
+* Consume `DELETE /api/v1/movies/:id`
+
+```bash
+$ curl http://127.0.0.1:8080/api/v1/movies/24 -X DELETE -vvv ; echo ""
+*   Trying 127.0.0.1:8080...
+* Connected to 127.0.0.1 (127.0.0.1) port 8080 (#0)
+> DELETE /api/v1/movies/24 HTTP/1.1
+> Host: 127.0.0.1:8080
+> User-Agent: curl/7.79.1
+> Accept: */*
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 204 No Content
+< Content-Type: application/json; charset=utf-8
+< Date: Thu, 10 Nov 2022 15:32:20 GMT
+<
+* Connection #0 to host 127.0.0.1 left intact
+
+$
+```
 
 

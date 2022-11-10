@@ -3,6 +3,7 @@ package handler
 import (
         "time"
 	"net/http"
+        "strconv"
 	"strings"
 	"github.com/gin-gonic/gin"
 
@@ -99,3 +100,22 @@ func (s *Movie) GetByName() gin.HandlerFunc {
 	}
 }
 
+
+func (m *Movie) Delete() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		id, err := strconv.ParseInt((c.Param("id")), 10, 64)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		err = m.service.Delete(c, id)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusNoContent, gin.H{"delete": id})
+	}
+}
