@@ -53,7 +53,7 @@ func (s *Movie) Store() gin.HandlerFunc {
 		}
 
 		product := domain.Movie(req)
-		id, err := s.service.Store(product)
+		id, err := s.service.Store(c, product)
 		if err != nil {
 			c.JSON(http.StatusConflict, err.Error())
 			return

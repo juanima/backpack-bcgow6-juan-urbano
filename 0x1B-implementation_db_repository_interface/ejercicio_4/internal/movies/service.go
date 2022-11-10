@@ -6,7 +6,7 @@ import (
 )
 
 type Service interface {
-	Store(domain.Movie) (int, error)
+	Store(context.Context, domain.Movie) (int, error)
 	GetByName(name string) (domain.Movie, error)
         GetAll(c context.Context) ([]domain.Movie, error)
         Delete(c context.Context, id int64) error
@@ -20,8 +20,8 @@ func NewService(r Repository) Service {
 	return &service{repository: r}
 }
 
-func (s *service) Store(p domain.Movie) (int, error) {
-	return s.repository.Store(p)
+func (s *service) Store(c context.Context, p domain.Movie) (int, error) {
+	return s.repository.Store(c, p)
 }
 
 func (s *service) GetAll(c context.Context) ([]domain.Movie, error) {

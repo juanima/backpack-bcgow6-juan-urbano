@@ -9,19 +9,21 @@ import (
 
 	"github.com/bootcamp-go/storage/internal/domain"
 )
+
 const (
         STORE_MOVIE = "INSERT INTO movies (title, rating, awards, length, release_date) VALUES (?,?,?,?,?)"
         GET_MOVIE_BY_TITLE = "SELECT id, title, rating, awards, length, genre_id FROM Movies WHERE title = ?;"
+	GET_MOVIE = "SELECT id, title, rating, awards, length, genre_id FROM movies WHERE id=?;"
 	GET_ALL_MOVIES = "SELECT m.id ,m.title, m.rating, m.awards, m.length, m.genre_id FROM movies m;"
 	DELETE_MOVIE = "DELETE FROM movies WHERE id=?;"
 )
 
 type Repository interface {
-	Store(p domain.Movie) (int, error)
+	Store(c context.Context, p domain.Movie) (int, error)
 	GetByName(name string) (domain.Movie, error)
         GetAll(c context.Context) ([]domain.Movie, error)
         Delete(c context.Context, id int64) error
-
+        GetMovieByID(c context.Context, id int) (domain.Movie, error)
 }
 
 func NewRepository(db *sql.DB) Repository {
@@ -33,22 +35,22 @@ type repository struct {
 }
 
 /* Ejercicio 2 - Replicar Store() */
-func (r *repository) Store(p domain.Movie) (int, error) {
+func (r *repository) Store(c context.Context, p domain.Movie) (int, error) {
 
 	stmt, err := r.db.Prepare(STORE_MOVIE)
 	if err != nil {
-		return 0, fmt.Errorf("error al preparar la consulta - error %v", err)
+		return 0, err
 	}
 	defer stmt.Close()
 
 	result, err := stmt.Exec(p.Title, p.Rating, p.Awards, p.Length, p.Release_date)
 	if err != nil {
-		return 0, fmt.Errorf("error al ejecutar la consulta - error %v", err)
+		return 0, err
 	}
 
 	id, err := result.LastInsertId()
 	if err != nil {
-		return 0, fmt.Errorf("error al obtener último id - error %v", err)
+		return 0, err
 	}
 
 	return int(id), nil
@@ -72,6 +74,16 @@ func (r *repository) GetAll(c context.Context) ([]domain.Movie, error) {
 	}
 
 	return movies, nil
+}
+
+func (r *repository) GetMovieByID(c context.Context, id int) (domain.Movie, error) {
+	row := r.db.QueryRow(GET_MOVIE, id)
+
+	var movie domain.Movie
+	if err := row.Scan(&movie.ID, &movie.Title, &movie.Rating, &movie.Awards, &movie.Length, &movie.Genre_id); err != nil {
+		return domain.Movie{}, err
+	}
+	return movie, nil
 }
 
 // Ejercicio 1 - Implementar GetByName()

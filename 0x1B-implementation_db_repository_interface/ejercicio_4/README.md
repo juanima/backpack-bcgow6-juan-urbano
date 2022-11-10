@@ -1,10 +1,27 @@
 # Práctica clase 1 - Storage Implementation
 
-## Ejercicio 2 - Implementar DELETE()
+## Extra - Diseñar test para las funcionalidades 
 
-Diseñar un método para eliminar un recurso de la base de datos.
-1. Dentro del archivo repository desarrollar el método Delete().
-2. Comprobar el correcto funcionamiento.
+Diseñar test para todos los métodos de la capa de repository
+
+---
+
+# Test
+
+```bash
+$ go test -v ./internal/movies/
+=== RUN   TestSave
+=== RUN   TestSave/Store_Ok
+=== RUN   TestSave/Store_Fail
+--- PASS: TestSave (0.00s)
+    --- PASS: TestSave/Store_Ok (0.00s)
+    --- PASS: TestSave/Store_Fail (0.00s)
+PASS
+ok      github.com/bootcamp-go/storage/internal/movies  (cached)
+$
+```
+
+---
 
 # Run
 
