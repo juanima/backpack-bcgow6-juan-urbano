@@ -177,3 +177,4 @@ func Test_Delete(t *testing.T) {
 	        assert.NoError(t, mock.ExpectationsWereMet())
         })
 }
+

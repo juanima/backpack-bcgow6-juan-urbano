@@ -1,5 +1,10 @@
 # Práctica clase 1 - Storage Implementation
 
+## Ejercicio 2 - Testear Update() y Delete() 
+
+* Generar tests para update, en donde se verifique que luego de modificarse un modelo, al obtenerlo el mismo posea los cambios realizados.
+* Generar tests para delete para verificar que un registro fue borrado correctamente y ya no se puede obtener ni utilizando GetOne ni al llamar a GetAll.
+
 ## Extra - Diseñar test para las funcionalidades 
 
 Diseñar test para todos los métodos de la capa de repository
@@ -156,6 +161,12 @@ $
 
 * Consume `DELETE /api/v1/movies/:id`
 
+```json
+{
+        "title": "my new movie"
+}
+```
+
 ```bash
 $ curl http://127.0.0.1:8080/api/v1/movies/24 -X DELETE -vvv ; echo ""
 *   Trying 127.0.0.1:8080...
@@ -172,6 +183,41 @@ $ curl http://127.0.0.1:8080/api/v1/movies/24 -X DELETE -vvv ; echo ""
 <
 * Connection #0 to host 127.0.0.1 left intact
 
+$
+```
+
+* Consume `PUT /api/v1/movies/:id`
+
+
+```json
+{
+        "title": "my new movie",
+        "rating": 3.4,
+        "awards": 4,
+        "length": 20,
+        "release_date": "2018-07-21 18:12:42.023"
+}
+```
+
+```bash
+$ curl http://127.0.0.1:8080/api/v1/movies/23 -X PUT -H "Content-Type: application/json" -d @update_movie.json -vvv ; echo "" | cat -e
+*   Trying 127.0.0.1:8080...
+* Connected to 127.0.0.1 (127.0.0.1) port 8080 (#0)
+> PUT /api/v1/movies/23 HTTP/1.1
+> Host: 127.0.0.1:8080
+> User-Agent: curl/7.79.1
+> Accept: */*
+> Content-Type: application/json
+> Content-Length: 118
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Content-Type: application/json; charset=utf-8
+< Date: Fri, 11 Nov 2022 22:46:04 GMT
+< Content-Length: 194
+<
+* Connection #0 to host 127.0.0.1 left intact
+{"data":{"id":23,"created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z","title":"my new movie","rating":3.4,"awards":4,"release_date":"","length":20,"genre_id":null},"code":200}$
 $
 ```
 

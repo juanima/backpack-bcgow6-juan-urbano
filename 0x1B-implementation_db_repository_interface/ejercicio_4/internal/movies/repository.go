@@ -11,10 +11,11 @@ import (
 )
 
 const (
-        STORE_MOVIE = "INSERT INTO movies (title, rating, awards, length, release_date) VALUES (?,?,?,?,?)"
         GET_MOVIE_BY_TITLE = "SELECT id, title, rating, awards, length, genre_id FROM Movies WHERE title = ?;"
 	GET_MOVIE = "SELECT id, title, rating, awards, length, genre_id FROM movies WHERE id=?;"
 	GET_ALL_MOVIES = "SELECT m.id ,m.title, m.rating, m.awards, m.length, m.genre_id FROM movies m;"
+        STORE_MOVIE = "INSERT INTO movies (title, rating, awards, length, release_date) VALUES (?,?,?,?,?)"
+	UPDATE_MOVIE = "UPDATE movies SET title=?, rating=?, awards=?, length=?, genre_id=? WHERE id=?;"
 	DELETE_MOVIE = "DELETE FROM movies WHERE id=?;"
 )
 
@@ -24,6 +25,7 @@ type Repository interface {
         GetAll(c context.Context) ([]domain.Movie, error)
         Delete(c context.Context, id int64) error
         GetMovieByID(c context.Context, id int) (domain.Movie, error)
+        Update(ctx context.Context, m domain.Movie, id int) error
 }
 
 func NewRepository(db *sql.DB) Repository {
@@ -132,3 +134,26 @@ func (r *repository) Delete(c context.Context, id int64) error {
 	return nil
 }
 
+
+func (r *repository) Update(ctx context.Context, m domain.Movie, id int) error {
+	stm, err := r.db.Prepare(UPDATE_MOVIE)
+	if err != nil {
+		return err
+	}
+	defer stm.Close() //cerramos para no perder memoria
+
+	//ejecutamos la consulta con aquellos valores a remplazar en la sentencia
+	result, err := stm.Exec(m.Title, m.Rating, m.Awards, m.Length, m.Genre_id, id)
+	if err != nil {
+		return err
+	}
+
+	affected, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if affected < 1 {
+		return errors.New("error: no affected rows")
+	}
+	return nil
+}

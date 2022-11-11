@@ -23,6 +23,7 @@ func main() {
 	pr.GET("/", p.GetByName())
 	pr.GET("", p.GetAll())
         pr.DELETE("/:id", p.Delete())
+        pr.PUT("/:id", p.Update())
 
 	r.Run()
 }

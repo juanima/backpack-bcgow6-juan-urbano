@@ -101,6 +101,34 @@ func (s *Movie) GetByName() gin.HandlerFunc {
 }
 
 
+func (m *Movie) Update() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			// c.JSON(404, gin.H{"error": "invalid ID"})
+		        c.JSON(http.StatusNotFound, web.NewResponse(nil, "invalid ID", http.StatusNotFound))
+			return
+		}
+
+		var movie domain.Movie
+		err = c.ShouldBindJSON(&movie)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, web.NewResponse(nil, err.Error(), http.StatusBadRequest))
+			return
+		}
+
+		movie, err = m.service.Update(c, movie, id)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, web.NewResponse(nil, err.Error(), http.StatusBadRequest))
+			return
+		}
+		movie.ID = id
+		c.JSON(http.StatusOK, web.NewResponse(movie, "", http.StatusOK))
+		// c.JSON(http.StatusOK, gin.H{"movie": movie})
+	}
+}
+
+
 func (m *Movie) Delete() gin.HandlerFunc {
 	return func(c *gin.Context) {
 

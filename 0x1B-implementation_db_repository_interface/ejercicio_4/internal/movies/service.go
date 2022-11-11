@@ -10,6 +10,7 @@ type Service interface {
 	GetByName(name string) (domain.Movie, error)
         GetAll(c context.Context) ([]domain.Movie, error)
         Delete(c context.Context, id int64) error
+        Update(ctx context.Context, b domain.Movie, id int) (domain.Movie, error)
 }
 
 type service struct {
@@ -40,3 +41,17 @@ func (s *service) GetByName(name string) (domain.Movie, error) {
 func (s *service) Delete(c context.Context, id int64) error {
 	return s.repository.Delete(c, id)
 }
+
+func (s *service) Update(ctx context.Context, b domain.Movie, id int) (domain.Movie, error) {
+
+	err := s.repository.Update(ctx, b, id)
+	if err != nil {
+		return domain.Movie{}, err
+	}
+	updated, err := s.repository.GetMovieByID(ctx, id)
+	if err != nil {
+		return b, err
+	}
+	return updated, nil
+}
+
