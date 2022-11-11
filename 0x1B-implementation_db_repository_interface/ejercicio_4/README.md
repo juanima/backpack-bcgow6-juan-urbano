@@ -175,4 +175,69 @@ $ curl http://127.0.0.1:8080/api/v1/movies/24 -X DELETE -vvv ; echo ""
 $
 ```
 
+# Coverage
+
+* the following test are related about `Repository Layer`
+
+```bash
+$ go test -v -cover -run Test_Delete ./internal/movies/
+=== RUN   Test_Delete
+=== RUN   Test_Delete/DeleteOK
+=== RUN   Test_Delete/Delete_Fail
+--- PASS: Test_Delete (0.00s)
+    --- PASS: Test_Delete/DeleteOK (0.00s)
+    --- PASS: Test_Delete/Delete_Fail (0.00s)
+PASS
+coverage: 18.6% of statements
+ok      github.com/bootcamp-go/storage/internal/movies  (cached)        coverage: 18.6% of statements
+$
+```
+
+## Coverage output html
+
+1. Generate `coverage.out` file 
+2. Render output from `coverage.out` file using *_html_*
+
+```bash
+$ go test -v -cover -coverprofile=coverage.out ./internal/movies/
+=== RUN   TestSave
+=== RUN   TestSave/Store_Ok
+=== RUN   TestSave/Store_Fail
+--- PASS: TestSave (0.00s)
+    --- PASS: TestSave/Store_Ok (0.00s)
+    --- PASS: TestSave/Store_Fail (0.00s)
+=== RUN   Test_RepositoryGetAll
+=== RUN   Test_RepositoryGetAll/GetAll_Ok
+=== RUN   Test_RepositoryGetAll/GetAll_Fail
+--- PASS: Test_RepositoryGetAll (0.00s)
+    --- PASS: Test_RepositoryGetAll/GetAll_Ok (0.00s)
+    --- PASS: Test_RepositoryGetAll/GetAll_Fail (0.00s)
+=== RUN   Test_Delete
+=== RUN   Test_Delete/DeleteOK
+=== RUN   Test_Delete/Delete_Fail
+--- PASS: Test_Delete (0.00s)
+    --- PASS: Test_Delete/DeleteOK (0.00s)
+    --- PASS: Test_Delete/Delete_Fail (0.00s)
+PASS
+coverage: 57.6% of statements
+ok      github.com/bootcamp-go/storage/internal/movies  1.037s  coverage: 57.6% of statements
+$
+$ go tool cover -html=coverage.out
+$
+```
+
+# Linter
+
+*Important* check the code
+
+```bash
+$ golangci-lint run
+tests/functional/movies_test.go:31:15: NewProduct not declared by package handler (typecheck)
+        p := handler.NewProduct(serv)
+                     ^
+cmd/server/main.go:27:7: Error return value of `r.Run` is not checked (errcheck)
+        r.Run()
+             ^
+$
+```
 

@@ -134,3 +134,46 @@ func Test_RepositoryGetAll(t *testing.T) {
 	        assert.NoError(t, mock.ExpectationsWereMet())
         })
 }
+
+
+func Test_Delete(t *testing.T) {
+
+        t.Run("DeleteOK", func(t *testing.T) {
+
+	        // Arrange
+	        db, mock, err := sqlmock.New()
+	        assert.NoError(t, err)
+	        defer db.Close()
+
+	        mock.ExpectPrepare(regexp.QuoteMeta(DELETE_MOVIE))
+	        mock.ExpectExec(regexp.QuoteMeta(DELETE_MOVIE)).WithArgs(movie_test.ID).WillReturnResult(sqlmock.NewResult(0, 1))
+
+	        repo := NewRepository(db)
+	        // Act
+	        err = repo.Delete(context.TODO(), 1)
+
+	        // Assert
+	        assert.NoError(t, err)
+	        assert.NoError(t, mock.ExpectationsWereMet())
+
+        })
+
+        t.Run("Delete Fail", func(t *testing.T) {
+
+	        // arrange
+	        db, mock, err := sqlmock.New()
+	        assert.NoError(t, err)
+	        defer db.Close()
+
+	        mock.ExpectPrepare(regexp.QuoteMeta(DELETE_MOVIE)).ExpectExec().WithArgs(movie_test.ID).WillReturnError(ERRORFORZADO)
+
+	        repo := NewRepository(db)
+
+	        // act
+	        err = repo.Delete(context.TODO(), int64(movie_test.ID))
+
+	        // assert
+	        assert.EqualError(t, err, ERRORFORZADO.Error())
+	        assert.NoError(t, mock.ExpectationsWereMet())
+        })
+}
